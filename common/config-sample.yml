@@ -1,0 +1,7 @@
+database:
+  sslmode: enable
+  host: localhost
+  port: 5432
+  user: myusername
+  dbname: mydbname
+  password: mypassword
