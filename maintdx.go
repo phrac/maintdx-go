@@ -29,7 +29,9 @@ func Routes() *chi.Mux {
 }
 
 func main() {
-	common.InitDB()
+	db := common.InitDB()
+
+	defer db.Close()
 
 	router := Routes()
 

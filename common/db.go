@@ -1,13 +1,14 @@
 package common
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/spf13/viper"
 	"log"
 )
 
-var db *gorm.DB
+var DB *gorm.DB
 
 func InitDB() *gorm.DB {
 	dbConnectionString := BuildConnectionString()
@@ -16,12 +17,15 @@ func InitDB() *gorm.DB {
 	if err != nil {
 		log.Fatal("DB error: ", err)
 	}
-
-	return db
+	fmt.Println("Connected to db..")
+	db.DB().SetMaxIdleConns(10)
+	DB = db
+	return DB
 }
 
 func GetDB() *gorm.DB {
-	return db
+	fmt.Println("DB connection request")
+	return DB
 }
 
 func BuildConnectionString() string {
