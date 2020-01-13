@@ -26,13 +26,6 @@ type AssetType struct {
 	Properties postgres.Hstore
 }
 
-func Routes() *chi.Mux {
-	router := chi.NewRouter()
-	router.Get("/{id}", GetAsset)
-	router.Get("/", GetAllAssets)
-	return router
-}
-
 func GetAsset(w http.ResponseWriter, r *http.Request) {
 	var a Asset
 	db := common.GetDB()
