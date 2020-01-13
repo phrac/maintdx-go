@@ -17,14 +17,12 @@ func InitDB() *gorm.DB {
 	if err != nil {
 		log.Fatal("DB error: ", err)
 	}
-	fmt.Println("Connected to db..")
 	db.DB().SetMaxIdleConns(10)
 	DB = db
 	return DB
 }
 
 func GetDB() *gorm.DB {
-	fmt.Println("DB connection request")
 	return DB
 }
 
