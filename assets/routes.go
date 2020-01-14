@@ -8,5 +8,6 @@ func Routes() *chi.Mux {
 	router := chi.NewRouter()
 	router.Get("/{id}", GetAsset)
 	router.Get("/", GetAllAssets)
+	router.Post("/", CreateAsset)
 	return router
 }
