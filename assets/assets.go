@@ -4,36 +4,10 @@ import (
 	"encoding/json"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"github.com/jinzhu/gorm"
-	"github.com/jinzhu/gorm/dialects/postgres"
 	"io/ioutil"
 	"maintdx/common"
 	"net/http"
-	"time"
 )
-
-type Asset struct {
-	gorm.Model
-	Name         string
-	Type         AssetType
-	SerialNumber string
-	Make         string
-	ModelNum     string
-	InstallDate  time.Time
-	Properties   postgres.Hstore
-}
-
-type AssetType struct {
-	gorm.Model
-	Name       string
-	Properties []AssetProperties
-}
-
-type AssetProperties struct {
-	gorm.Model
-	AssetType AssetType
-	Name      string
-}
 
 func GetAsset(w http.ResponseWriter, r *http.Request) {
 	var a Asset
