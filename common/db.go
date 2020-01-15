@@ -28,5 +28,4 @@ func InitDB() *pg.DB {
 
 func GetDB() *pg.DB {
 	return DB
-
 }

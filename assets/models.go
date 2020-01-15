@@ -6,8 +6,18 @@ import (
 
 type Asset struct {
 	Id           int
+	CreateAt     time.Time `pg:"default:now()"`
+	UpdatedAt    time.Time
+	ParentId     int
+	Parent       Parent `pg:"fk:parent_id"`
+	DepartmentId int
+	Department   Department `pg:"fk:department_id"`
+	LocationId   int
+	Location     Location `pg:"fk:location_id"`
+	Parent       Asset    `pg:"fk:parent_id"`
 	Name         string
-	Type         AssetType
+	TypeId       int
+	Type         AssetType `pg:"fk:type_id"`
 	SerialNumber string
 	Make         string
 	ModelNum     string
@@ -23,4 +33,14 @@ type AssetTypeProperties struct {
 	AssetType AssetType
 	required  bool
 	Name      string
+}
+
+type Department struct {
+	Id   int
+	Name string
+}
+
+type Location struct {
+	Id   int
+	Name string
 }
