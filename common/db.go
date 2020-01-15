@@ -1,43 +1,32 @@
 package common
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/go-pg/pg/v9"
 	"github.com/spf13/viper"
 	"log"
 )
 
-var DB *gorm.DB
+var DB *pg.DB
 
-func InitDB() *gorm.DB {
-	dbConnectionString := BuildConnectionString()
-	db, err := gorm.Open("postgres", dbConnectionString)
+func InitDB() *pg.DB {
 
-	if err != nil {
-		log.Fatal("DB error: ", err)
-	}
-	db.DB().SetMaxIdleConns(10)
-	DB = db
-	return DB
-}
-
-func GetDB() *gorm.DB {
-	return DB
-}
-
-func BuildConnectionString() string {
 	viper.SetConfigFile("common/config.yml")
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Error reading config: ", err)
 	}
-	sslMode := viper.GetString("database.sslmode")
-	host := viper.GetString("database.host")
-	port := viper.GetString("database.port")
-	user := viper.GetString("database.user")
-	dbName := viper.GetString("database.dbname")
-	password := viper.GetString("database.password")
 
-	c := "host=" + host + " port=" + port + " user=" + user + " dbname=" + dbName + " password=" + password + " sslmode=" + sslMode
+	db := pg.Connect(&pg.Options{
+		User:     viper.GetString("database.user"),
+		Password: viper.GetString("database.password"),
+		Database: viper.GetString("database.dbname"),
+		Addr:     viper.GetString("database.host") + ":" + viper.GetString("database.port"),
+	})
 
-	return c
+	DB = db
+	return DB
+}
+
+func GetDB() *pg.DB {
+	return DB
+
 }
